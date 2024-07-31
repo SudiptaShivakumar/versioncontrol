@@ -1,0 +1,36 @@
+{% extends 'repository/base.html' %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <h2>{{ repository.name }}</h2>
+        <p>{{ repository.description }}</p>
+        <h3>Files</h3>
+        {% for file in repository.file_set.all %}
+            <div class="card mt-2">
+                <div class="card-body">
+                    <h5 class="card-title">{{ file.name }}</h5>
+                    <ul class="list-group">
+                        {% with previous_version=None %}
+                        {% for version in file.version_set.all %}
+                            <li class="list-group-item">
+                                Version {{ version.version_number }} - {{ version.created_at }}
+                                <a href="{{ version.uploaded_file.url }}" class="btn btn-link">Download</a>
+                                {% if previous_version %}
+                                    <a href="{% url 'compare_versions' file.pk previous_version.pk version.pk %}" class="btn btn-link">Compare with Previous</a>
+                                {% endif %}
+                                {% with version as previous_version %}
+                                {% endwith %}
+                            </li>
+                        {% endfor %}
+                        {% endwith %}
+                    </ul>
+                    <a class="btn btn-secondary mt-2" href="{% url 'create_version' file.pk %}">Add Version</a>
+                </div>
+            </div>
+        {% endfor %}
+        <a class="btn btn-primary mt-3" href="{% url 'create_file' repository.pk %}">Add File</a>
+        <a class="btn btn-link mt-3" href="{% url 'repository_list' %}">Back to Repositories</a>
+    </div>
+</div>
+{% endblock %}

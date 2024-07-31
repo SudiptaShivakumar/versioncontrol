@@ -1,0 +1,11 @@
+{% extends 'repository/base.html' %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <h2>Comparison of {{ version1 }} and {{ version2 }}</h2>
+        <pre class="p-3 bg-light border rounded">{{ comparison_result }}</pre>
+        <a class="btn btn-link mt-3" href="{% url 'repository_detail' file.repository.pk %}">Back to Repository</a>
+    </div>
+</div>
+{% endblock %}

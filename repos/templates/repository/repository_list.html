@@ -1,0 +1,22 @@
+{% extends 'repository/base.html' %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <h2>Repositories</h2>
+        <ul class="list-group">
+            {% for repository in repositories %}
+                <li class="list-group-item">
+                    <a href="{% url 'repository_detail' repository.pk %}">{{ repository.name }}</a>
+                </li>
+            {% endfor %}
+        </ul>
+        <a class="btn btn-primary mt-3" href="{% url 'create_repository' %}">Create Repository</a>
+    </div>
+</div>
+{% endblock %}
+
+{% for repository in repositories %}
+    <a href="{% url 'repository_detail' repository.pk %}">{{ repository.name }}</a><br>
+{% endfor %}
+<a href="{% url 'create_repository' %}">Create Repository</a>
